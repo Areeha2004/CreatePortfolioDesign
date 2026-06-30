@@ -580,6 +580,11 @@ export default function App() {
                   </p>
                 </div>
                 <div className="flex gap-3">
+                  <a href="https://roamioagent.vercel.app/" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all hover:opacity-80"
+                    style={{ background: "#4F46E5", color: "#fff" }}>
+                    <ExternalLink size={14} /> Live Demo
+                  </a>
                   <a href="https://github.com/Areeha2004/roamio-agent" target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-all hover:opacity-80"
                     style={{ borderColor: "rgba(245,245,243,0.2)", color: "#F5F5F3", background: "rgba(245,245,243,0.06)" }}>
