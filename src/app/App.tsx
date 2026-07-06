@@ -278,6 +278,8 @@ export default function App() {
   const [activeModal, setActiveModal] = useState<(typeof PROJECTS)[0] | null>(null);
   const blobRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => { document.title = "Areeha Zulfiqar - Portfolio"; }, []);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll, { passive: true });
