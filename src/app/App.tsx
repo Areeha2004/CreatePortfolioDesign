@@ -278,7 +278,40 @@ export default function App() {
   const [activeModal, setActiveModal] = useState<(typeof PROJECTS)[0] | null>(null);
   const blobRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => { document.title = "Areeha Zulfiqar - Portfolio"; }, []);
+  useEffect(() => {
+    document.title = "Areeha Zulfiqar Chaudhary - AI & Full-Stack Engineer";
+
+    const meta: Record<string, string> = {
+      description: "AI & Full-Stack Engineer specialising in LLM applications, RAG, and AI agents. Four AI products shipped end-to-end. Based in Lahore, Pakistan.",
+      "og:type": "website",
+      "og:url": "https://areeha-portfolio.vercel.app",
+      "og:title": "Areeha Zulfiqar Chaudhary - AI & Full-Stack Engineer",
+      "og:description": "AI & Full-Stack Engineer specialising in LLM applications, RAG, and AI agents. Four AI products shipped end-to-end. Based in Lahore, Pakistan.",
+      "og:site_name": "Areeha Zulfiqar Chaudhary",
+      "twitter:card": "summary_large_image",
+      "twitter:title": "Areeha Zulfiqar Chaudhary - AI & Full-Stack Engineer",
+      "twitter:description": "AI & Full-Stack Engineer specialising in LLM applications, RAG, and AI agents. Four AI products shipped end-to-end.",
+    };
+
+    Object.entries(meta).forEach(([key, content]) => {
+      const attr = key.startsWith("og:") || key.startsWith("twitter:") ? "property" : "name";
+      let el = document.querySelector<HTMLMetaElement>(`meta[${attr}="${key}"]`);
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute(attr, key);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", content);
+    });
+
+    let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute("href", "https://areeha-portfolio.vercel.app");
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
