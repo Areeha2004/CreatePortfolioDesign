@@ -22,7 +22,7 @@ const SKILL_GROUPS = [
     skills: [
       "LLM Applications (OpenAI API)", "RAG", "AI Agents (LangGraph)",
       "Embeddings & Vector DBs (Chroma)", "LLM-as-Judge & Evals",
-      "Structured Outputs", "Prompt Engineering", "LangChain",
+      "Structured Outputs", "Prompt Engineering", "LangChain", "MCP (built a server)",
       "Computer Vision (MediaPipe / OpenCV)",
     ],
   },
@@ -43,10 +43,12 @@ const SKILL_GROUPS = [
     ],
   },
   {
-    label: "Foundations",
+    label: "Production & Quality",
     accent: false,
     skills: [
-      "Full-Stack System Design", "REST APIs", "JWT / Auth", "Agile / Scrum", "CI/CD",
+      "Docker", "CI/CD (GitHub Actions)", "pytest / Jest", "Structured logging & tracing",
+      "Latency & cost benchmarking", "Full-Stack System Design", "REST APIs", "JWT / Auth",
+      "Agile / Scrum",
     ],
   },
 ];
@@ -59,11 +61,20 @@ const ROAMIO_STEPS = [
   { id: "write", label: "Write", sub: "LLM prose only" },
 ];
 
+const ROAMIO_METRICS = [
+  { value: "14.3s", label: "median, end to end" },
+  { value: "$0.001", label: "cost per itinerary" },
+  { value: "91%", label: "claims judge-verified" },
+  { value: "41", label: "tests gating every push" },
+];
+
 const ROAMIO_BULLETS = [
   "Two RAG pipelines -semantic destination retrieval + grounding-content corpus (Wikivoyage + Wikipedia + Tavily) so day notes cite real sources.",
   "LLM-as-judge faithfulness guard that fact-checks each day's claims against its sources.",
   "Natural-language trip editing -free text → typed edit operations via structured outputs, validated and applied deterministically.",
   "Lean evals harness -deterministic assertions on planning math + opt-in end-to-end faithfulness pass.",
+  "Production layer -Docker container deployed on Render, 41 pytest tests and the image build gated by GitHub Actions, and structured per-request logging with request tracing.",
+  "Planning tools published over MCP as typed tools, so any MCP client can search destinations, route a trip and check feasibility.",
 ];
 
 const PROJECTS = [
@@ -553,7 +564,7 @@ export default function App() {
           <SectionHeader eyebrow="About me" title="Technical by trade,\npragmatic by design." />
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1px_320px] gap-12 lg:gap-16">
             <p className="text-lg leading-[1.8] text-foreground/75 max-w-xl">
-              {"I'm Areeha -an AI & Full-Stack Engineer based in Lahore. I build AI-powered products end to end: from RAG pipelines, LLM agents, and evaluation harnesses to the Next.js / FastAPI systems that serve them. My guiding principle is simple -the LLM writes the words, deterministic code makes the decisions -so what I ship is grounded and trustworthy, not just an impressive demo. I completed my BS in Software Engineering at PUCIT in 2026, work part-time shipping production full-stack apps, and have built four AI projects from scratch."}
+              {"I'm Areeha -an AI & Full-Stack Engineer based in Lahore. I build AI-powered products end to end: from RAG pipelines, LLM agents, and evaluation harnesses to the Next.js / FastAPI systems that serve them -containerized, tested in CI, and measured in production. My guiding principle is simple -the LLM writes the words, deterministic code makes the decisions -so what I ship is grounded and trustworthy, not just an impressive demo. I completed my BS in Software Engineering at PUCIT in 2026, work as a software engineer shipping production full-stack apps for US clients, and have built four AI projects from scratch."}
             </p>
             <div className="hidden lg:block bg-border" />
             <div className="grid grid-cols-2 gap-px bg-border rounded-2xl overflow-hidden">
@@ -662,6 +673,27 @@ export default function App() {
               </div>
             </div>
 
+            {/* Measured results */}
+            <div className="px-8 py-7 border-b border-border">
+              <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-5">
+                Measured, not claimed
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {ROAMIO_METRICS.map((m) => (
+                  <div key={m.label} className="rounded-xl border border-border bg-card px-5 py-4">
+                    <p className="font-sora font-extrabold text-2xl md:text-3xl tracking-tight text-foreground tabular-nums">
+                      {m.value}
+                    </p>
+                    <p className="text-xs text-muted-foreground leading-snug mt-1">{m.label}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground mt-4 leading-relaxed">
+                Benchmarked over 10 varied trips through the full pipeline; results committed to the repo.
+                The writer is ~60% of total latency, so the deterministic planner is effectively free.
+              </p>
+            </div>
+
             {/* Bullets + stack */}
             <div className="px-8 py-8 grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8">
               <div>
@@ -678,7 +710,7 @@ export default function App() {
               <div>
                 <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-4">Stack</p>
                 <div className="flex flex-wrap gap-2">
-                  {["Next.js", "React", "Tailwind", "FastAPI", "LangGraph", "LangChain", "Chroma", "OpenAI", "Tavily", "Supabase", "Vercel", "Render"].map((t) => (
+                  {["Next.js", "React", "Tailwind", "FastAPI", "LangGraph", "LangChain", "Chroma", "OpenAI", "Tavily", "Supabase", "Docker", "GitHub Actions", "pytest", "MCP", "Vercel", "Render"].map((t) => (
                     <Badge key={t} accent>{t}</Badge>
                   ))}
                 </div>
