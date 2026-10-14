@@ -4,7 +4,9 @@ import { Github, Linkedin, Mail, ExternalLink, ArrowRight, Menu, X, Copy, Check,
 
 /* ─── data ─────────────────────────────────────────────────── */
 
-const NAV_LINKS = ["Work", "About", "Skills", "Contact"];
+const NAV_LINKS: [label: string, sectionId: string][] = [
+  ["Work", "work"], ["About", "about"], ["Skills", "skills"], ["Contact", "contact"],
+];
 
 const STATS = [
   { value: "4", label: "AI products shipped" },
@@ -399,7 +401,7 @@ export default function App() {
             AZ
           </button>
           <nav className="hidden md:flex items-center gap-8">
-            {[["Work", "work"], ["About", "about"], ["Skills", "skills"], ["Contact", "contact"]].map(([label, id]) => (
+            {NAV_LINKS.map(([label, id]) => (
               <button
                 key={id}
                 onClick={() => scrollTo(id)}
@@ -427,13 +429,17 @@ export default function App() {
         </div>
         {menuOpen && (
           <div className="md:hidden bg-background/95 backdrop-blur border-b border-border px-6 py-5 space-y-4">
-            {[["Work", "work"], ["About", "about"], ["Skills", "skills"], ["Contact", "contact"]].map(([label, id]) => (
+            {NAV_LINKS.map(([label, id]) => (
               <button key={id} onClick={() => scrollTo(id)}
                 className="block w-full text-left text-base font-medium text-foreground py-1.5">
                 {label}
               </button>
             ))}
-            <a href="#" className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-border rounded-lg">
+            <a
+              href={resumePdf}
+              download="Areeha-Zulfiqar-Resume.pdf"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border border-border rounded-lg"
+            >
               <Download size={13} /> Resume
             </a>
           </div>
@@ -792,7 +798,7 @@ export default function App() {
           <p className="text-sm font-sora font-bold text-foreground">Areeha Zulfiqar Chaudhary</p>
           <p className="text-xs text-muted-foreground">© 2026 · All rights reserved</p>
           <nav className="flex items-center gap-5">
-            {[["Work", "work"], ["About", "about"], ["Skills", "skills"], ["Contact", "contact"]].map(([label, id]) => (
+            {NAV_LINKS.map(([label, id]) => (
               <button key={id} onClick={() => scrollTo(id)}
                 className="text-xs text-muted-foreground hover:text-foreground transition-colors">
                 {label}
