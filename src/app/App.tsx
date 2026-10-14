@@ -5,7 +5,8 @@ import { Github, Linkedin, Mail, ExternalLink, ArrowRight, Menu, X, Copy, Check,
 /* ─── data ─────────────────────────────────────────────────── */
 
 const NAV_LINKS: [label: string, sectionId: string][] = [
-  ["Work", "work"], ["About", "about"], ["Skills", "skills"], ["Contact", "contact"],
+  ["Work", "work"], ["Experience", "experience"], ["About", "about"],
+  ["Skills", "skills"], ["Contact", "contact"],
 ];
 
 const STATS = [
@@ -75,6 +76,51 @@ const ROAMIO_BULLETS = [
   "Lean evals harness -deterministic assertions on planning math + opt-in end-to-end faithfulness pass.",
   "Production layer -Docker container deployed on Render, 41 pytest tests and the image build gated by GitHub Actions, and structured per-request logging with request tracing.",
   "Planning tools published over MCP as typed tools, so any MCP client can search destinations, route a trip and check feasibility.",
+];
+
+const EXPERIENCE = [
+  {
+    role: "Junior Software Engineer",
+    company: "NewGates Systems",
+    meta: "Full-time  ·  Lahore, remote delivery for US clients",
+    period: "Feb 2026 - Present",
+    groups: [
+      {
+        heading: "MCPC Member Portal - US community solar cooperative",
+        note: "Live production portal. Client code is not public.",
+        bullets: [
+          "Drive day-to-day feature delivery: build, test, document and demo client-facing changes directly to the US client across time zones.",
+          "Delivered the billing and payment workflows -Stripe card and ACH tokenization, saved payment methods, automated invoice payment, invoice PDFs, and multi-step onboarding.",
+          "Integrated Odoo 18 ERP so portal activity and billing stay in sync with the back office.",
+        ],
+      },
+      {
+        heading: "AI developer tooling",
+        note: "Built solo during employment. Described here; the code is not mine to publish.",
+        bullets: [
+          "Prototype Studio -a requirements-to-prototype workspace where an LLM edits a live React codebase behind server-side path whitelisting, snapshot and staging copies, build validation before an atomic promote, and one-click restore to any prior version.",
+          "Designer Studio -a self-verifying loop that turns a Figma frame or screenshot into a pixel-accurate page: headless rendering, pixel-level diffing against the design target, then a PR.",
+          "AI Build Studio -a lower-cost model drafts React changes, a stronger model reviews them against production, and approved work opens a PR with rollback and cost tracking.",
+          "Ran the model evaluation that decided which model drafts and which one reviews.",
+        ],
+      },
+    ],
+  },
+  {
+    role: "Teaching Assistant, Artificial Intelligence",
+    company: "PUCIT, University of the Punjab",
+    meta: "Lahore",
+    period: "",
+    groups: [
+      {
+        heading: "",
+        note: "",
+        bullets: [
+          "Supported 30+ students in AI concepts, algorithms and assignments under faculty supervision.",
+        ],
+      },
+    ],
+  },
 ];
 
 const PROJECTS = [
@@ -571,7 +617,7 @@ export default function App() {
           <SectionHeader eyebrow="About me" title="Technical by trade,\npragmatic by design." />
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1px_320px] gap-12 lg:gap-16">
             <p className="text-lg leading-[1.8] text-foreground/75 max-w-xl">
-              {"I'm Areeha -an AI & Full-Stack Engineer based in Lahore. I build AI-powered products end to end: from RAG pipelines, LLM agents, and evaluation harnesses to the Next.js / FastAPI systems that serve them -containerized, tested in CI, and measured in production. My guiding principle is simple -the LLM writes the words, deterministic code makes the decisions -so what I ship is grounded and trustworthy, not just an impressive demo. I completed my BS in Software Engineering at PUCIT in 2026, work as a software engineer shipping production full-stack apps for US clients, and have built four AI projects from scratch."}
+              {"I'm Areeha -an AI & Full-Stack Engineer based in Lahore. I build AI-powered products end to end: from RAG pipelines, LLM agents, and evaluation harnesses to the Next.js / FastAPI systems that serve them -containerized, tested in CI, and measured in production. My guiding principle is simple -the LLM writes the words, deterministic code makes the decisions -so what I ship is grounded and trustworthy, not just an impressive demo. I completed my BS in Software Engineering at PUCIT in 2026 and work full-time as a software engineer at NewGates Systems, shipping a live production portal for a US client and building the internal AI developer tooling -alongside four AI projects built from scratch."}
             </p>
             <div className="hidden lg:block bg-border" />
             <div className="grid grid-cols-2 gap-px bg-border rounded-2xl overflow-hidden">
@@ -617,8 +663,50 @@ export default function App() {
         </div>
       </section>
 
+      {/* ── Experience ── */}
+      <section id="experience" className="py-28 bg-background">
+        <div className="max-w-6xl mx-auto px-6">
+          <SectionHeader eyebrow="Experience" title="Where I've shipped." />
+          <div className="space-y-6">
+            {EXPERIENCE.map((job) => (
+              <div key={job.role + job.company} className="rounded-2xl border border-border bg-card p-7 md:p-8">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 mb-1">
+                  <h3 className="font-sora font-bold text-xl text-foreground">{job.role}</h3>
+                  {job.period && (
+                    <span className="text-xs font-medium text-muted-foreground tabular-nums">{job.period}</span>
+                  )}
+                </div>
+                <p className="text-sm font-medium text-primary mb-1">{job.company}</p>
+                {job.meta && <p className="text-xs text-muted-foreground mb-6">{job.meta}</p>}
+
+                <div className="space-y-6">
+                  {job.groups.map((g, gi) => (
+                    <div key={gi}>
+                      {g.heading && (
+                        <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
+                          {g.heading}
+                        </p>
+                      )}
+                      {g.note && <p className="text-xs text-muted-foreground/70 italic mb-3">{g.note}</p>}
+                      <ul className="space-y-2.5">
+                        {g.bullets.map((b, bi) => (
+                          <li key={bi} className="flex items-start gap-3 text-sm text-foreground/80 leading-relaxed">
+                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Featured: Roamio ── */}
-      <section id="work" className="py-28 bg-background">
+      <section id="work" className="py-28 bg-background border-t border-border">
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader eyebrow="Featured project" title="Roamio." />
 
