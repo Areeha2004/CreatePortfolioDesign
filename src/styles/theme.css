@@ -179,3 +179,77 @@
     line-height: 1.5;
   }
 }
+
+/* ── Dark surface ──────────────────────────────────────────────────────────
+   The hero and the Roamio hero band sit on a dark surface. These are the
+   tokens for it, so those sections stop hard-coding hex values inline. */
+:root {
+  --ink: #0E0F14;
+  --ink-raised: #1a1b2e;
+  --on-ink: #F5F5F3;
+  --on-ink-muted: rgb(245 245 243 / 0.58);
+  --on-ink-subtle: rgb(245 245 243 / 0.38);
+  --on-ink-faint: rgb(245 245 243 / 0.14);
+  --indigo-light: #818CF8;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-ink-raised: var(--ink-raised);
+  --color-on-ink: var(--on-ink);
+  --color-on-ink-muted: var(--on-ink-muted);
+  --color-on-ink-subtle: var(--on-ink-subtle);
+  --color-on-ink-faint: var(--on-ink-faint);
+  --color-indigo-light: var(--indigo-light);
+}
+
+/* ── Motion ────────────────────────────────────────────────────────────────
+   The Figma export referenced animate-fade-up / animate-blob / animate-float
+   but never defined them, so the hero rendered with no entrance at all.
+   Defined here, with a staggered delay so the hero assembles rather than
+   appearing all at once. */
+@keyframes fade-up {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes blob-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33%      { transform: translate3d(-28px, 22px, 0) scale(1.07); }
+  66%      { transform: translate3d(18px, -16px, 0) scale(0.95); }
+}
+
+@keyframes float-hint {
+  0%, 100% { transform: translateY(0); opacity: 0.55; }
+  50%      { transform: translateY(7px); opacity: 1; }
+}
+
+.animate-fade-up,
+.animate-fade-up-1,
+.animate-fade-up-2,
+.animate-fade-up-3,
+.animate-fade-up-4,
+.animate-fade-up-5 {
+  opacity: 0;
+  animation: fade-up 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.animate-fade-up-1 { animation-delay: 0.08s; }
+.animate-fade-up-2 { animation-delay: 0.16s; }
+.animate-fade-up-3 { animation-delay: 0.24s; }
+.animate-fade-up-4 { animation-delay: 0.32s; }
+.animate-fade-up-5 { animation-delay: 0.40s; }
+
+.animate-blob  { animation: blob-drift 22s ease-in-out infinite; }
+.animate-float { animation: float-hint 2.6s ease-in-out infinite; }
+
+/* Honour the OS "reduce motion" setting: show everything, move nothing. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-fade-up-1,
+  .animate-fade-up-2,
+  .animate-fade-up-3,
+  .animate-fade-up-4,
+  .animate-fade-up-5 { opacity: 1; animation: none; }
+  .animate-blob,
+  .animate-float { animation: none; }
+}

@@ -5,7 +5,8 @@ import { Github, Linkedin, Mail, ExternalLink, ArrowRight, Menu, X, Copy, Check,
 /* ─── data ─────────────────────────────────────────────────── */
 
 const NAV_LINKS: [label: string, sectionId: string][] = [
-  ["Work", "work"], ["About", "about"], ["Skills", "skills"], ["Contact", "contact"],
+  ["Work", "work"], ["Experience", "experience"], ["About", "about"],
+  ["Skills", "skills"], ["Contact", "contact"],
 ];
 
 const STATS = [
@@ -62,10 +63,10 @@ const ROAMIO_STEPS = [
 ];
 
 const ROAMIO_METRICS = [
-  { value: "14.3s", label: "median, end to end" },
-  { value: "$0.001", label: "cost per itinerary" },
-  { value: "91%", label: "claims judge-verified" },
-  { value: "41", label: "tests gating every push" },
+  { value: "14.3s", label: "median, end to end", short: "median latency" },
+  { value: "$0.001", label: "cost per itinerary", short: "per itinerary" },
+  { value: "91%", label: "claims judge-verified", short: "judge-verified" },
+  { value: "41", label: "tests gating every push", short: "tests in CI" },
 ];
 
 const ROAMIO_BULLETS = [
@@ -75,6 +76,51 @@ const ROAMIO_BULLETS = [
   "Lean evals harness -deterministic assertions on planning math + opt-in end-to-end faithfulness pass.",
   "Production layer -Docker container deployed on Render, 41 pytest tests and the image build gated by GitHub Actions, and structured per-request logging with request tracing.",
   "Planning tools published over MCP as typed tools, so any MCP client can search destinations, route a trip and check feasibility.",
+];
+
+const EXPERIENCE = [
+  {
+    role: "Junior Software Engineer",
+    company: "NewGates Systems",
+    meta: "Full-time  ·  Lahore, remote delivery for US clients",
+    period: "Feb 2026 - Present",
+    groups: [
+      {
+        heading: "MCPC Member Portal - US community solar cooperative",
+        note: "Live production portal. Client code is not public.",
+        bullets: [
+          "Drive day-to-day feature delivery: build, test, document and demo client-facing changes directly to the US client across time zones.",
+          "Delivered the billing and payment workflows -Stripe card and ACH tokenization, saved payment methods, automated invoice payment, invoice PDFs, and multi-step onboarding.",
+          "Integrated Odoo 18 ERP so portal activity and billing stay in sync with the back office.",
+        ],
+      },
+      {
+        heading: "AI developer tooling",
+        note: "Built solo during employment. Described here; the code is not mine to publish.",
+        bullets: [
+          "Prototype Studio -a requirements-to-prototype workspace where an LLM edits a live React codebase behind server-side path whitelisting, snapshot and staging copies, build validation before an atomic promote, and one-click restore to any prior version.",
+          "Designer Studio -a self-verifying loop that turns a Figma frame or screenshot into a pixel-accurate page: headless rendering, pixel-level diffing against the design target, then a PR.",
+          "AI Build Studio -a lower-cost model drafts React changes, a stronger model reviews them against production, and approved work opens a PR with rollback and cost tracking.",
+          "Ran the model evaluation that decided which model drafts and which one reviews.",
+        ],
+      },
+    ],
+  },
+  {
+    role: "Teaching Assistant, Artificial Intelligence",
+    company: "PUCIT, University of the Punjab",
+    meta: "Lahore",
+    period: "",
+    groups: [
+      {
+        heading: "",
+        note: "",
+        bullets: [
+          "Supported 30+ students in AI concepts, algorithms and assignments under faculty supervision.",
+        ],
+      },
+    ],
+  },
 ];
 
 const PROJECTS = [
@@ -463,19 +509,27 @@ export default function App() {
         className="relative min-h-screen flex flex-col justify-center overflow-hidden"
         style={{ background: "#0E0F14" }}
       >
-        {/* Animated blob */}
+        {/* Drifting glow */}
         <div
           ref={blobRef}
-          className="animate-blob pointer-events-none absolute right-[5%] top-[15%] w-[520px] h-[520px] opacity-[0.12] transition-transform duration-700 ease-out"
-          style={{ background: "radial-gradient(circle at 40% 40%, #4F46E5 0%, #7C3AED 40%, #0E0F14 80%)" }}
+          className="animate-blob pointer-events-none absolute right-[-6%] top-[8%] w-[560px] h-[560px] opacity-[0.16] blur-[20px] transition-transform duration-700 ease-out"
+          style={{ background: "radial-gradient(circle at 40% 40%, #4F46E5 0%, #7C3AED 42%, transparent 72%)" }}
         />
-        {/* Fine grid overlay */}
+        {/* Fine grid, masked so it dissolves toward the edges */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            backgroundImage: "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
+            backgroundImage:
+              "linear-gradient(rgb(255 255 255 / 0.03) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.03) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+            maskImage: "radial-gradient(120% 90% at 50% 0%, #000 35%, transparent 85%)",
+            WebkitMaskImage: "radial-gradient(120% 90% at 50% 0%, #000 35%, transparent 85%)",
           }}
+        />
+        {/* Vignette, to settle the edges */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: "radial-gradient(130% 85% at 50% 35%, transparent 45%, rgb(0 0 0 / 0.45) 100%)" }}
         />
 
         <div className="relative max-w-6xl mx-auto px-6 pt-28 pb-20">
@@ -492,8 +546,7 @@ export default function App() {
             style={{ fontSize: "clamp(2.6rem, 6vw, 5rem)", color: "#F5F5F3", maxWidth: "860px" }}
           >
             I build AI products that are grounded,{" "}
-            <span style={{ color: "#818CF8" }}>not guessed</span>
-            {" "}- RAG, agents, and the full-stack to ship them.
+            <span style={{ color: "var(--indigo-light)" }}>not guessed.</span>
           </h1>
 
           <p className="animate-fade-up-2 text-base md:text-lg leading-relaxed mb-10 max-w-2xl"
@@ -512,37 +565,37 @@ export default function App() {
             </button>
             <button
               onClick={() => scrollTo("contact")}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all hover:-translate-y-0.5 active:translate-y-0"
-              style={{ color: "#F5F5F3", border: "1px solid rgba(245,245,243,0.15)", background: "transparent" }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(245,245,243,0.06)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all hover:-translate-y-0.5 active:translate-y-0 text-on-ink border border-on-ink-faint bg-transparent hover:bg-white/[0.07]"
             >
               Get in touch
             </button>
           </div>
 
-          <div className="animate-fade-up-4 flex items-center gap-5">
+          <div className="animate-fade-up-4 mb-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <span className="text-[10px] font-semibold tracking-[0.15em] uppercase" style={{ color: "var(--on-ink-subtle)" }}>
+              Roamio, measured
+            </span>
+            {ROAMIO_METRICS.map((m) => (
+              <span key={m.short} className="flex items-baseline gap-1.5 text-xs">
+                <span className="font-sora font-bold tabular-nums" style={{ color: "var(--on-ink)" }}>{m.value}</span>
+                <span style={{ color: "var(--on-ink-subtle)" }}>{m.short}</span>
+              </span>
+            ))}
+          </div>
+
+          <div className="animate-fade-up-5 flex items-center gap-5">
             <a href="https://github.com/Areeha2004" target="_blank" rel="noopener noreferrer"
-              className="p-2 rounded-lg transition-all hover:-translate-y-0.5"
-              style={{ color: "rgba(245,245,243,0.45)" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#F5F5F3")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,245,243,0.45)")}
+              className="p-2 rounded-lg transition-all hover:-translate-y-0.5 text-on-ink-subtle hover:text-on-ink"
               aria-label="GitHub">
               <Github size={20} />
             </a>
             <a href="https://linkedin.com/in/areehazulfiqar" target="_blank" rel="noopener noreferrer"
-              className="p-2 rounded-lg transition-all hover:-translate-y-0.5"
-              style={{ color: "rgba(245,245,243,0.45)" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#F5F5F3")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,245,243,0.45)")}
+              className="p-2 rounded-lg transition-all hover:-translate-y-0.5 text-on-ink-subtle hover:text-on-ink"
               aria-label="LinkedIn">
               <Linkedin size={20} />
             </a>
             <button onClick={copyEmail}
-              className="p-2 rounded-lg transition-all hover:-translate-y-0.5"
-              style={{ color: "rgba(245,245,243,0.45)" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#F5F5F3")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,245,243,0.45)")}
+              className="p-2 rounded-lg transition-all hover:-translate-y-0.5 text-on-ink-subtle hover:text-on-ink"
               aria-label="Copy email">
               {copied ? <Check size={20} className="text-emerald-400" /> : <Mail size={20} />}
             </button>
@@ -564,7 +617,7 @@ export default function App() {
           <SectionHeader eyebrow="About me" title="Technical by trade,\npragmatic by design." />
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1px_320px] gap-12 lg:gap-16">
             <p className="text-lg leading-[1.8] text-foreground/75 max-w-xl">
-              {"I'm Areeha -an AI & Full-Stack Engineer based in Lahore. I build AI-powered products end to end: from RAG pipelines, LLM agents, and evaluation harnesses to the Next.js / FastAPI systems that serve them -containerized, tested in CI, and measured in production. My guiding principle is simple -the LLM writes the words, deterministic code makes the decisions -so what I ship is grounded and trustworthy, not just an impressive demo. I completed my BS in Software Engineering at PUCIT in 2026, work as a software engineer shipping production full-stack apps for US clients, and have built four AI projects from scratch."}
+              {"I'm Areeha -an AI & Full-Stack Engineer based in Lahore. I build AI-powered products end to end: from RAG pipelines, LLM agents, and evaluation harnesses to the Next.js / FastAPI systems that serve them -containerized, tested in CI, and measured in production. My guiding principle is simple -the LLM writes the words, deterministic code makes the decisions -so what I ship is grounded and trustworthy, not just an impressive demo. I completed my BS in Software Engineering at PUCIT in 2026 and work full-time as a software engineer at NewGates Systems, shipping a live production portal for a US client and building the internal AI developer tooling -alongside four AI projects built from scratch."}
             </p>
             <div className="hidden lg:block bg-border" />
             <div className="grid grid-cols-2 gap-px bg-border rounded-2xl overflow-hidden">
@@ -610,8 +663,50 @@ export default function App() {
         </div>
       </section>
 
+      {/* ── Experience ── */}
+      <section id="experience" className="py-28 bg-background">
+        <div className="max-w-6xl mx-auto px-6">
+          <SectionHeader eyebrow="Experience" title="Where I've shipped." />
+          <div className="space-y-6">
+            {EXPERIENCE.map((job) => (
+              <div key={job.role + job.company} className="rounded-2xl border border-border bg-card p-7 md:p-8">
+                <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 mb-1">
+                  <h3 className="font-sora font-bold text-xl text-foreground">{job.role}</h3>
+                  {job.period && (
+                    <span className="text-xs font-medium text-muted-foreground tabular-nums">{job.period}</span>
+                  )}
+                </div>
+                <p className="text-sm font-medium text-primary mb-1">{job.company}</p>
+                {job.meta && <p className="text-xs text-muted-foreground mb-6">{job.meta}</p>}
+
+                <div className="space-y-6">
+                  {job.groups.map((g, gi) => (
+                    <div key={gi}>
+                      {g.heading && (
+                        <p className="text-xs font-semibold tracking-widest uppercase text-muted-foreground mb-1.5">
+                          {g.heading}
+                        </p>
+                      )}
+                      {g.note && <p className="text-xs text-muted-foreground/70 italic mb-3">{g.note}</p>}
+                      <ul className="space-y-2.5">
+                        {g.bullets.map((b, bi) => (
+                          <li key={bi} className="flex items-start gap-3 text-sm text-foreground/80 leading-relaxed">
+                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                            {b}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Featured: Roamio ── */}
-      <section id="work" className="py-28 bg-background">
+      <section id="work" className="py-28 bg-background border-t border-border">
         <div className="max-w-6xl mx-auto px-6">
           <SectionHeader eyebrow="Featured project" title="Roamio." />
 
