@@ -62,10 +62,10 @@ const ROAMIO_STEPS = [
 ];
 
 const ROAMIO_METRICS = [
-  { value: "14.3s", label: "median, end to end" },
-  { value: "$0.001", label: "cost per itinerary" },
-  { value: "91%", label: "claims judge-verified" },
-  { value: "41", label: "tests gating every push" },
+  { value: "14.3s", label: "median, end to end", short: "median latency" },
+  { value: "$0.001", label: "cost per itinerary", short: "per itinerary" },
+  { value: "91%", label: "claims judge-verified", short: "judge-verified" },
+  { value: "41", label: "tests gating every push", short: "tests in CI" },
 ];
 
 const ROAMIO_BULLETS = [
@@ -463,19 +463,27 @@ export default function App() {
         className="relative min-h-screen flex flex-col justify-center overflow-hidden"
         style={{ background: "#0E0F14" }}
       >
-        {/* Animated blob */}
+        {/* Drifting glow */}
         <div
           ref={blobRef}
-          className="animate-blob pointer-events-none absolute right-[5%] top-[15%] w-[520px] h-[520px] opacity-[0.12] transition-transform duration-700 ease-out"
-          style={{ background: "radial-gradient(circle at 40% 40%, #4F46E5 0%, #7C3AED 40%, #0E0F14 80%)" }}
+          className="animate-blob pointer-events-none absolute right-[-6%] top-[8%] w-[560px] h-[560px] opacity-[0.16] blur-[20px] transition-transform duration-700 ease-out"
+          style={{ background: "radial-gradient(circle at 40% 40%, #4F46E5 0%, #7C3AED 42%, transparent 72%)" }}
         />
-        {/* Fine grid overlay */}
+        {/* Fine grid, masked so it dissolves toward the edges */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            backgroundImage: "linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
+            backgroundImage:
+              "linear-gradient(rgb(255 255 255 / 0.03) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 0.03) 1px, transparent 1px)",
+            backgroundSize: "56px 56px",
+            maskImage: "radial-gradient(120% 90% at 50% 0%, #000 35%, transparent 85%)",
+            WebkitMaskImage: "radial-gradient(120% 90% at 50% 0%, #000 35%, transparent 85%)",
           }}
+        />
+        {/* Vignette, to settle the edges */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: "radial-gradient(130% 85% at 50% 35%, transparent 45%, rgb(0 0 0 / 0.45) 100%)" }}
         />
 
         <div className="relative max-w-6xl mx-auto px-6 pt-28 pb-20">
@@ -492,8 +500,7 @@ export default function App() {
             style={{ fontSize: "clamp(2.6rem, 6vw, 5rem)", color: "#F5F5F3", maxWidth: "860px" }}
           >
             I build AI products that are grounded,{" "}
-            <span style={{ color: "#818CF8" }}>not guessed</span>
-            {" "}- RAG, agents, and the full-stack to ship them.
+            <span style={{ color: "var(--indigo-light)" }}>not guessed.</span>
           </h1>
 
           <p className="animate-fade-up-2 text-base md:text-lg leading-relaxed mb-10 max-w-2xl"
@@ -512,37 +519,37 @@ export default function App() {
             </button>
             <button
               onClick={() => scrollTo("contact")}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all hover:-translate-y-0.5 active:translate-y-0"
-              style={{ color: "#F5F5F3", border: "1px solid rgba(245,245,243,0.15)", background: "transparent" }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(245,245,243,0.06)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all hover:-translate-y-0.5 active:translate-y-0 text-on-ink border border-on-ink-faint bg-transparent hover:bg-white/[0.07]"
             >
               Get in touch
             </button>
           </div>
 
-          <div className="animate-fade-up-4 flex items-center gap-5">
+          <div className="animate-fade-up-4 mb-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <span className="text-[10px] font-semibold tracking-[0.15em] uppercase" style={{ color: "var(--on-ink-subtle)" }}>
+              Roamio, measured
+            </span>
+            {ROAMIO_METRICS.map((m) => (
+              <span key={m.short} className="flex items-baseline gap-1.5 text-xs">
+                <span className="font-sora font-bold tabular-nums" style={{ color: "var(--on-ink)" }}>{m.value}</span>
+                <span style={{ color: "var(--on-ink-subtle)" }}>{m.short}</span>
+              </span>
+            ))}
+          </div>
+
+          <div className="animate-fade-up-5 flex items-center gap-5">
             <a href="https://github.com/Areeha2004" target="_blank" rel="noopener noreferrer"
-              className="p-2 rounded-lg transition-all hover:-translate-y-0.5"
-              style={{ color: "rgba(245,245,243,0.45)" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#F5F5F3")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,245,243,0.45)")}
+              className="p-2 rounded-lg transition-all hover:-translate-y-0.5 text-on-ink-subtle hover:text-on-ink"
               aria-label="GitHub">
               <Github size={20} />
             </a>
             <a href="https://linkedin.com/in/areehazulfiqar" target="_blank" rel="noopener noreferrer"
-              className="p-2 rounded-lg transition-all hover:-translate-y-0.5"
-              style={{ color: "rgba(245,245,243,0.45)" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#F5F5F3")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,245,243,0.45)")}
+              className="p-2 rounded-lg transition-all hover:-translate-y-0.5 text-on-ink-subtle hover:text-on-ink"
               aria-label="LinkedIn">
               <Linkedin size={20} />
             </a>
             <button onClick={copyEmail}
-              className="p-2 rounded-lg transition-all hover:-translate-y-0.5"
-              style={{ color: "rgba(245,245,243,0.45)" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#F5F5F3")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,245,243,0.45)")}
+              className="p-2 rounded-lg transition-all hover:-translate-y-0.5 text-on-ink-subtle hover:text-on-ink"
               aria-label="Copy email">
               {copied ? <Check size={20} className="text-emerald-400" /> : <Mail size={20} />}
             </button>
